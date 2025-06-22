@@ -1,1 +1,7 @@
+# OpenAIキーの漏洩防止
+.streamlit/secrets.toml
+.env
 
+# Pythonキャッシュ
+__pycache__/
+*.pyc
