@@ -3,7 +3,7 @@ import openai
 import os
 
 st.set_page_config(page_title="Pythonアドバイスアプリ", layout="wide")
-st.title("🧠 提出課題アドバイス生成アプリ")
+st.title("提出課題アドバイス生成アプリ")
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -19,5 +19,5 @@ if st.button("アドバイスを生成"):
             ]
         )
         advice = response['choices'][0]['message']['content']
-        st.success("✅ アドバイスが生成されました！")
+        st.success("アドバイスが生成されました！")
         st.text_area("アドバイス", advice, height=300)
