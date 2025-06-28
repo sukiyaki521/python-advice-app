@@ -12,7 +12,7 @@ user_code = st.text_area("Pythonコードを入力してください", height=30
 if st.button("アドバイスを生成"):
     with st.spinner("GPTが考え中です..."):
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "あなたはPython教師です。答えを直接教えずにヒントを出してください。"},
                 {"role": "user", "content": f"以下のコードの問題点と改善点、学習のヒントをください:\n{user_code}"}
