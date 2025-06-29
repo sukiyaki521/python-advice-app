@@ -1,24 +1,25 @@
 import streamlit as st
 import openai
 import os
-import openai.error  # ✅ OpenAIの例外クラス
+from openai.error import OpenAIError  # ✅ OpenAI APIのエラー処理用
 
+# 🔧 ページ設定
 st.set_page_config(page_title="Pythonアドバイスアプリ", layout="wide")
 st.title("提出課題アドバイス生成アプリ")
 
-# 🔐 APIキーの取得
+# 🔐 APIキーの読み込み（環境変数から）
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# 📢 注意書き
+# 📢 注意メッセージ
 st.markdown("**このアプリは“ヒント”のみ提供します。答えや完成コードは返しません。**")
 
-# 📝 入力欄
+# 📝 ユーザーが入力するPythonコード欄
 user_code = st.text_area("Pythonコードを入力してください", height=300)
 
-# 🚫 NGワードフィルター
+# 🚫 禁止ワード（カンニング防止）
 banned_phrases = ["答え", "教えて", "コードを", "正解", "完成形", "ソースコード"]
 
-# ▶️ 実行ボタン
+# 🧠 GPTに質問
 if st.button("アドバイスを生成"):
     if any(phrase in user_code for phrase in banned_phrases):
         st.warning("『答えを教えて』などの指示は禁止です。ヒントをもとに考えてみましょう！")
@@ -28,7 +29,7 @@ if st.button("アドバイスを生成"):
         with st.spinner("GPTが考え中です..."):
             try:
                 response = openai.ChatCompletion.create(
-                    model="gpt-4o",  # 必要に応じて "gpt-3.5-turbo" などに変更
+                    model="gpt-4o",
                     messages=[
                         {
                             "role": "system",
@@ -47,7 +48,7 @@ if st.button("アドバイスを生成"):
                 advice = response['choices'][0]['message']['content']
                 st.success("アドバイスが生成されました！")
                 st.text_area("アドバイス", advice, height=300)
-            except openai.error.OpenAIError as e:
+            except OpenAIError as e:
                 st.error(f"OpenAI API エラーが発生しました: {e}")
             except Exception as e:
                 st.error(f"その他のエラーが発生しました: {e}")
