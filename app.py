@@ -1,6 +1,7 @@
 import streamlit as st
 import openai
 import os
+from openai import OpenAIError
 
 st.set_page_config(page_title="Pythonアドバイスアプリ", layout="wide")
 st.title("提出課題アドバイス生成アプリ")
